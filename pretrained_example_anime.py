@@ -23,8 +23,8 @@ def main():
     anime = True
 
     if anime:
-        print(os.path.exists('cache/2019-03-08-stylegan-animefaces-network-02051-021980.pkl'))
-        with open('cache/2019-03-08-stylegan-animefaces-network-02051-021980.pkl', mode='rb') as f:
+        print(os.path.exists('cache/2019-03-08-stylegan-animefaces-network.pkl'))
+        with open('cache/2019-03-08-stylegan-animefaces-network.pkl', mode='rb') as f:
             _G, _D, Gs = pickle.load(f)
     else:
         url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl

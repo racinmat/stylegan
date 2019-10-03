@@ -9,7 +9,7 @@ import config
 
 def main():
     tflib.init_tf()
-    _G, _D, Gs = pickle.load(open("cache/2019-03-08-stylegan-animefaces-network-02051-021980.pkl", "rb"))
+    _G, _D, Gs = pickle.load(open("cache/2019-03-08-stylegan-animefaces-network.pkl", "rb"))
     Gs.print_layers()
 
     for i in range(0,1000):

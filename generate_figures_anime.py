@@ -19,7 +19,7 @@ synthesis_kwargs = dict(output_transform=dict(func=tflib.convert_images_to_uint8
 _Gs_cache = dict()
 
 def load_Gs():
-    _G, _D, Gs = pickle.load(open('cache/2019-03-08-stylegan-animefaces-network-02051-021980.pkl', "rb"))
+    _G, _D, Gs = pickle.load(open('cache/2019-03-08-stylegan-animefaces-network.pkl', "rb"))
     return Gs
 
 #----------------------------------------------------------------------------
