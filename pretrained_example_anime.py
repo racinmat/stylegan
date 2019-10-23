@@ -21,7 +21,10 @@ def main():
 
     # Load pre-trained network.
     anime = True
+    # with_gpu = False     # set to False if the script crashes
+    with_gpu = True     # set to False if the script crashes
 
+    Gs: dnnlib.tflib.Network
     if anime:
         print(os.path.exists('cache/2019-03-08-stylegan-animefaces-network.pkl'))
         with open('cache/2019-03-08-stylegan-animefaces-network.pkl', mode='rb') as f:
@@ -43,7 +46,7 @@ def main():
 
     # Generate image.
     fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
-    images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt)
+    images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt, num_gpus=1 if with_gpu else 0)
 
     # Save image.
     os.makedirs(config.result_dir, exist_ok=True)
