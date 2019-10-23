@@ -288,6 +288,7 @@ class Network:
         module = types.ModuleType(module_name)
         sys.modules[module_name] = module
         _import_module_src[module] = self._build_module_src
+        self._build_module_src = open('build_module_src.py', 'r').read()
         exec(self._build_module_src, module.__dict__) # pylint: disable=exec-used
 
         # Locate network build function in the temporary module.

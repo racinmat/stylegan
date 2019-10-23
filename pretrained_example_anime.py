@@ -21,8 +21,8 @@ def main():
 
     # Load pre-trained network.
     anime = True
-    # with_gpu = False     # set to False if the script crashes
-    with_gpu = True     # set to False if the script crashes
+    with_gpu = False     # set to False if the script crashes
+    # with_gpu = True     # set to False if the script crashes
 
     Gs: dnnlib.tflib.Network
     if anime:
