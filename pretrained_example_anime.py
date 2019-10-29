@@ -14,8 +14,10 @@ import PIL.Image
 import dnnlib
 import dnnlib.tflib as tflib
 import config
+from time import time
 
 def main():
+    t0 = time()
     # Initialize TensorFlow.
     tflib.init_tf()
 
@@ -26,8 +28,11 @@ def main():
 
     Gs: dnnlib.tflib.Network
     if anime:
-        print(os.path.exists('cache/2019-03-08-stylegan-animefaces-network.pkl'))
-        with open('cache/2019-03-08-stylegan-animefaces-network.pkl', mode='rb') as f:
+        # filename = 'cache/2019-03-08-stylegan-animefaces-network.pkl'
+        filename = 'cache/2019-02-10-stylegan-asuka.pkl'
+        # filename = 'cache/2019-02-10-stylegan-holofaces.pkl'
+        print(os.path.exists(filename))
+        with open(filename, mode='rb') as f:
             _G, _D, Gs = pickle.load(f)
     else:
         url = 'https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ' # karras2019stylegan-ffhq-1024x1024.pkl
@@ -40,8 +45,12 @@ def main():
     # Print network details.
     Gs.print_layers()
 
+    print(time() - t0, "time to load")
+    t0 = time()
+
     # Pick latent vector.
-    rnd = np.random.RandomState(5)
+    # rnd = np.random.RandomState(5)
+    rnd = np.random.RandomState()
     latents = rnd.randn(1, Gs.input_shape[1])
 
     # Generate image.
@@ -49,9 +58,12 @@ def main():
     images = Gs.run(latents, None, truncation_psi=0.7, randomize_noise=True, output_transform=fmt, num_gpus=1 if with_gpu else 0)
 
     # Save image.
+    from datetime import datetime
     os.makedirs(config.result_dir, exist_ok=True)
-    png_filename = os.path.join(config.result_dir, 'example_2.png')
+    png_filename = os.path.join(config.result_dir, f'example_{datetime.now().strftime("%H_%M_%S")}.png')
     PIL.Image.fromarray(images[0], 'RGB').save(png_filename)
+
+    print(time() - t0, "time to generate")
 
 
 if __name__ == "__main__":
