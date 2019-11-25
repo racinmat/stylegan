@@ -39,11 +39,11 @@ def main():
         fmt = dict(func=tflib.convert_images_to_uint8, nchw_to_nhwc=True)
 
         current_latent = gen_func(current_pos)
-        current_image = Gs.run(current_latent, None, truncation_psi=0.7, randomize_noise=False, output_transform=fmt)[0]
+        current_image = Gs.run(current_latent, None, truncation_psi=0.7, randomize_noise=False, output_transform=fmt, num_gpus=0)[0]
         array_list = []
 
-        video_length = 1.0
-        # video_length = 0.2
+        # video_length = 1.0
+        video_length = 0.2
         while current_pos < video_length:
             array_list.append(current_image)
 
@@ -52,7 +52,7 @@ def main():
             current_pos = (upper + lower) / 2.0
 
             current_latent = gen_func(current_pos)
-            current_image = Gs.run(current_latent, None, truncation_psi=0.7, randomize_noise=False, output_transform=fmt)[0]
+            current_image = Gs.run(current_latent, None, truncation_psi=0.7, randomize_noise=False, output_transform=fmt, num_gpus=0)[0]
             current_mse = mse(array_list[-1], current_image)
 
             while current_mse < change_min or current_mse > change_max:
@@ -65,7 +65,7 @@ def main():
                     current_pos = (upper + lower) / 2.0
 
                 current_latent = gen_func(current_pos)
-                current_image = Gs.run(current_latent, None, truncation_psi=0.7, randomize_noise=False, output_transform=fmt)[0]
+                current_image = Gs.run(current_latent, None, truncation_psi=0.7, randomize_noise=False, output_transform=fmt, num_gpus=0)[0]
                 current_mse = mse(array_list[-1], current_image)
             print(current_pos, current_mse)
         return array_list
